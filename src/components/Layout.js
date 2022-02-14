@@ -1,7 +1,7 @@
 import React , {useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Layout = (authUser) => {
+const Layout = () => {
 
   let { user: currentUser } = useSelector((state) => state.auth);
   
