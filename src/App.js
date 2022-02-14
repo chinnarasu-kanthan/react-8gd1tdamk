@@ -1,14 +1,14 @@
 import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
-
 import { logout } from './actions/auth';
 import { clearMessage } from './actions/message';
 import { createBrowserHistory } from 'history';
+import EventBus from "./components/eventBus";
 
 function RequireAuth({ children, redirectTo }) {
   let isAuthenticated = useSelector((state) => state.auth);
@@ -30,6 +30,16 @@ export default function App() {
     dispatch(logout());
   }, [dispatch]);
 
+  useEffect(() => {
+    EventBus.on('logout', () => {
+      logOut();
+    });
+
+    return () => {
+      EventBus.remove('logout');
+    };
+  }, [currentUser, logOut]);
+
   return (
     <BrowserRouter>
       <div>
@@ -37,13 +47,7 @@ export default function App() {
           <nav className="navbar navbar-expand bg-primary">
             <div className="navbar-nav mr-auto">
               <li className="nav-item ">
-                <a
-                  href="login"
-                  className="navbar-brand pull-right"
-                  onClick={logOut}
-                >
-                  LogOut
-                </a>
+              <Link to="login"  onClick={logOut}>LogOut</Link>
               </li>
             </div>
           </nav>
@@ -65,8 +69,6 @@ export default function App() {
             />
           </Routes>
         </div>
-
-        {/* <AuthVerify logOut={logOut}/> */}
       </div>
     </BrowserRouter>
   );

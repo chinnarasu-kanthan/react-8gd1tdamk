@@ -27,6 +27,7 @@ const login = (username, password) => {
         firstName: user.firstName,
         lastName: user.lastName,
         layout:  user.layout,
+        token: 'fake-jwt-token'
       };
       resolve( JSON.stringify(responseJson));
       localStorage.setItem('user', JSON.stringify(responseJson));

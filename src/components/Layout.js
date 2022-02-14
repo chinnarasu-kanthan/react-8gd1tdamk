@@ -4,9 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 const Layout = (authUser) => {
 
   let { user: currentUser } = useSelector((state) => state.auth);
-
-
-
   
   return (
     <div className="container">
